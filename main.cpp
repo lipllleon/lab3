@@ -13,7 +13,7 @@ int main()
 	m_window.create(sf::VideoMode(width, height), "game");
 
 	Circle cir(150, 300, 60, 100, pi/4);
-	Rectangle rec(400, 300, 100, 60, 100, 5*pi/6, pi/3);
+	Rectangle rec(400, 300, 150, 100, 100, 5*pi/6, pi/4);
 	Triangle tri(700, 300, 90, 100, -pi/3, pi/4);
 
 	m_window.clear(sf::Color::White);

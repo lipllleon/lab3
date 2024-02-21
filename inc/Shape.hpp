@@ -49,22 +49,41 @@ public:
 
 	std::pair<float, float> move(float dt, int width, int height)
 	{
+		float ratio; //ѕолучившийс€ путь к необходимому
 		float vx = p_v * cos(p_alfa);
 		float vy = p_v * sin(p_alfa);
-		if (vx * dt > width - p_x - p_right)
-			p_x = width - p_right;
-		else if (vx * dt < -p_x + p_left)
-			p_x = p_left;
-		else {
-			p_x += vx * dt;
+		bool istouchhorizont = false;
+		bool istouchvertical = false;
+
+		if (vx * dt > width - p_x - p_right) {  //права€ грань
+			ratio = (width - p_x - p_right) / (vx * dt);
+			istouchvertical = true;
+		} 
+		else if (vx * dt < -p_x + p_left) {  //лева€ грань
+			ratio = (-p_x + p_left) / (vx * dt);
+			istouchvertical = true;
+		} 
+
+		if (vy * dt > height - p_y - p_bottom) {   //нижн€€
+			ratio = (height - p_y - p_bottom) / (vy * dt);
+			istouchhorizont = true;
+		} 
+
+		else if (vy * dt < -p_y + p_top) {  //верхн€€
+			ratio = (-p_y + p_top) / (vy * dt);
+			istouchhorizont = true;
 		}
-		if (vy * dt > height - p_y - p_bottom)
-			p_y = height - p_bottom;
-		else if (vy * dt < -p_y + p_top)
-			p_y = p_top;
-		else {
+
+
+		if (!istouchvertical && !istouchhorizont) {
+			p_x += vx * dt;
 			p_y += vy * dt;
 		}
+		else {
+			p_x += ratio * vx * dt;
+			p_y += ratio * vy * dt;
+		}
+
 		return std::pair<float, float>(p_x, p_y);
 	}
 	bool touchBorder(int width, int height)
